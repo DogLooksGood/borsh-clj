@@ -1,5 +1,5 @@
 (ns borsh.macros
-  (:refer-clojure :exclude [defrecord])
+  (:refer-clojure :exclude [defstruct])
   (:require [clojure.spec.alpha :as s]
             [clojure.string :as str]
             [borsh.specs :as specs]
@@ -52,7 +52,7 @@
   (let [schema (mapv parse-field fields)]
     schema))
 
-(defn defrecord-impl [env name fields]
+(defn defstruct-impl [env name fields]
 
   (let [schema   (parse-schema fields)
         ctor-sym (symbol (str "->" name))
@@ -73,13 +73,13 @@
            borsh.types/HasSchema
            (borsh.types/-schema [this#] ~schema))))))
 
-(defmacro defrecord
+(defmacro defstruct
   "This macro works similarly to clojure.core/defrecord, except borsh
   schema will be defined at the same time. Generated class and
   constructor function(e.g. ->Foo) are extended to protocol HasSchema,
   so both (schema Foo) and (schema ->Foo) return the schema."
   [name fields]
-  (defrecord-impl &env name fields))
+  (defstruct-impl &env name fields))
 
 (defn defvariants-impl [name variants]
   `(do

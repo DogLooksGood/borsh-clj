@@ -1,31 +1,31 @@
 (ns borsh.writer-test
-  (:refer-clojure :exclude [defrecord])
+  (:refer-clojure :exclude [defstruct])
   (:require [clojure.test :as t]
             [borsh.utils :as u]
             [borsh.writer :as sut]
-            [borsh.macros :refer [defrecord defvariants]])
+            [borsh.macros :refer [defstruct defvariants]])
   #?(:clj
      (:import clojure.lang.ExceptionInfo)))
 
-(defrecord A [^:u8 a ^:u16 b ^:u32 c ^:u64 d])
+(defstruct A [^:u8 a ^:u16 b ^:u32 c ^:u64 d])
 
-(defrecord B [^{:enum [:e/a :e/b]} e])
+(defstruct B [^{:enum [:e/a :e/b]} e])
 
-(defrecord C [^:u8 a ^{:struct B} b])
+(defstruct C [^:u8 a ^{:struct B} b])
 
-(defrecord D [^:string s])
+(defstruct D [^:string s])
 
-(defrecord E [^{:option {:struct B}} b])
+(defstruct E [^{:option {:struct B}} b])
 
 (defvariants DE [D E])
 
-(defrecord F [^{:variants DE} x])
+(defstruct F [^{:variants DE} x])
 
-(defrecord G [^:bytes x])
+(defstruct G [^:bytes x])
 
-(defrecord H [^{:vec {:struct D}} x])
+(defstruct H [^{:vec {:struct D}} x])
 
-(defrecord I [^{:map [:u8 :string]} x])
+(defstruct I [^{:map [:u8 :string]} x])
 
 (t/deftest test-serialize
   (t/testing "u8 ~ u64"
