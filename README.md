@@ -33,16 +33,16 @@ A pure Clojure/Script implementation for Borsh
 
 | Borsh                    | Clojure              | Meta                          |
 |--------------------------|----------------------|-------------------------------|
-| Boolean                  | Boolean              | `^:bool`                      |
+| boolean                  | Boolean              | `^:bool`                      |
 | `u8` integer             | Long or Number       | `^:u8`                        |
 | `u16` integer            | Long or Number       | `^:u16`                       |
 | `u32` integer            | Long or Number       | `^:u32`                       |
 | `u64` integer            | Long or BigInt       | `^:u64`                       |
 | UTF-8 String             | String               | `^:string`                    |
-| option                   | `nil` or type        | `^{:option type}`             |
-| vec                      | Vector               | `^{:vec item-type}`           |
-| map                      | HashMap              | `^{:map [key-type val-type]}` |
-| structs                  | Record               | `^{:struct record}`           |
-| simple enums             | Keyword              | `^{:enums [kws]}`             |
-| enum of structs          | Record               | `^{:variants variants}`       |
-| dynamic-sized byte array | Byte[] or Uint8Array | `^:bytes`                     |
+| Option                   | `nil` or type        | `^{:option type}`             |
+| Vec                      | Vector               | `^{:vec item-type}`           |
+| Map                      | HashMap              | `^{:map [key-type val-type]}` |
+| Structs                  | Record               | `^{:struct record}`           |
+| Simple enums             | Keyword              | `^{:enums [kws]}`             |
+| Enum of structs          | Record               | `^{:variants variants}`       |
+| Dynamic-sized byte array | Byte[] or Uint8Array | `^:bytes`                     |
