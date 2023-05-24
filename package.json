@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "test": "shadow-cljs compile node-test"
+  },
   "devDependencies": {
     "shadow-cljs": "^2.23.3"
   }
