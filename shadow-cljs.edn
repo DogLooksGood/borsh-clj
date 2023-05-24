@@ -1,0 +1,16 @@
+{:deps
+ {:aliases [:cljs :cljs-test]}
+
+ :dev-http {8888 "target/browser-test"}
+
+ :builds
+ {:node-test
+  {:target     :node-test
+   :output-to "target/tests.js"
+   :output-dir "target/test/"
+   :ns-regexp "^borsh.*-test$"
+   :autorun true}
+
+  :browser-test
+  {:target :browser-test
+   :test-dir "target/browser-test"}}}
