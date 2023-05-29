@@ -1,0 +1,2 @@
+{:lint-as {borsh.macros/defstruct clojure.core/defrecord
+           borsh.macros/defvariants clojure.core/def}}
