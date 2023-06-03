@@ -42,7 +42,7 @@ A pure Clojure/Script implementation for Borsh
 | Option                   | `nil` or type        | `^{:option type}`             |
 | Vec                      | Vector               | `^{:vec item-type}`           |
 | Map                      | HashMap              | `^{:map [key-type val-type]}` |
-| Structs                  | Record               | `^{:struct record}`           |
-| Simple enums             | Keyword              | `^{:enums [kws]}`             |
+| Struct                   | Record               | `^{:struct record}`           |
+| Simple enum              | Keyword              | `^{:enum [kws]}`              |
 | Enum of structs          | Record               | `^{:variants variants}`       |
 | Dynamic-sized byte array | Byte[] or Uint8Array | `^:bytes`                     |
