@@ -6,6 +6,10 @@
      (def text-encoder (js/TextEncoder.))
      (def text-decoder (js/TextDecoder. "utf8"))))
 
+(defn number [n]
+  #?(:cljs (js/Number n)
+     :clj n))
+
 (defn bigint [n]
   #?(:cljs (js/BigInt n)
      :clj n))

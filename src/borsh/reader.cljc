@@ -21,6 +21,8 @@
         (t/read-u32 buf)
         :u64
         (t/read-u64 buf)
+        :usize
+        (u/number (t/read-u64 buf))
         :string
         (let [c (t/read-u32 buf)
               bs (t/read-bytes buf c)]

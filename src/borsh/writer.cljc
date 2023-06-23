@@ -11,21 +11,22 @@
     (case t
       :primitive
       (case opts
-        :bool (t/write-u8 buf (if (true? value) 1 0))
-        :u8 (if (<= 0 value 255)
+        :bool   (t/write-u8 buf (if (true? value) 1 0))
+        :u8     (if (<= 0 value 255)
               (t/write-u8 buf value)
               (throw (ex-info (str "Invalid u8 value: " value) {})))
-        :u16 (if (<= 0 value 65535)
+        :u16    (if (<= 0 value 65535)
                (t/write-u16 buf value)
                (throw (ex-info (str "Invalid u16 value: " value) {})))
-        :u32 (if (<= 0 value 4294967295)
+        :u32    (if (<= 0 value 4294967295)
                (t/write-u32 buf value)
                (throw (ex-info (str "Invalid u32 value: " value) {})))
-        :u64 (t/write-u64 buf value)
+        :u64    (t/write-u64 buf value)
+        :usize  (t/write-u64 buf (u/bigint value))
         :string (do
                   (t/write-u32 buf (count value))
                   (t/write-bytes buf (u/get-bytes value)))
-        :bytes (do
+        :bytes  (do
                  (t/write-u32 buf (u/count-byte-array value))
                  (t/write-bytes buf value)))
 
@@ -60,7 +61,7 @@
 
       :variants
       (let [{:keys [types]} opts
-            idx (.indexOf types (type value))]
+            idx             (.indexOf types (type value))]
         (if (= -1 idx)
           (throw (ex-info "Invalid variant" {:value value :variants types}))
           (do

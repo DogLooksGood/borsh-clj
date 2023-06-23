@@ -1,8 +1,7 @@
 (ns borsh.specs
-  (:require [clojure.spec.alpha :as s]
-            [borsh.types :refer [HasSchema]]))
+  (:require [clojure.spec.alpha :as s]))
 
-(def primitives #{:bool :u8 :u16 :u32 :u64 :string :bytes})
+(def primitives #{:bool :u8 :u16 :u32 :u64 :usize :string :bytes})
 
 (s/def ::primitive primitives)
 (s/def ::type

@@ -38,6 +38,7 @@ A pure Clojure/Script implementation for Borsh
 | `u16` integer            | Long or Number       | `^:u16`                       |
 | `u32` integer            | Long or Number       | `^:u32`                       |
 | `u64` integer            | Long or BigInt       | `^:u64`                       |
+| `usize` integer          | Long or Number       | `^:usize`                     |
 | UTF-8 String             | String               | `^:string`                    |
 | Option                   | `nil` or type        | `^{:option type}`             |
 | Vec                      | Vector               | `^{:vec item-type}`           |

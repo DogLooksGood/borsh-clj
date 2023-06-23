@@ -26,6 +26,8 @@
 
 (defstruct I [^{:map [:u8 :string]} x])
 
+(defstruct J [^:usize x])
+
 (t/deftest test-deserialize
   (t/testing "u8 ~ u64"
     (let [bs (u/byte-array [1 2 0 3 0 0 0 4 0 0 0 0 0 0 0])
@@ -53,4 +55,8 @@
 
   (t/testing "Variants"
     (t/is (= (->F (->D "abc"))
-             (sut/deserialize ->F (u/byte-array [0 3 0 0 0 97 98 99]))))))
+             (sut/deserialize ->F (u/byte-array [0 3 0 0 0 97 98 99])))))
+
+  (t/testing "usize"
+    (t/is (= (->J 10)
+             (sut/deserialize ->J (u/byte-array [10 0 0 0 0 0 0 0]))))))

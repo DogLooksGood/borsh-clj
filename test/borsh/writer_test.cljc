@@ -27,6 +27,8 @@
 
 (defstruct I [^{:map [:u8 :string]} x])
 
+(defstruct J [^:usize x])
+
 (t/deftest test-serialize
   (t/testing "u8 ~ u64"
     (let [x (->A 1 2 3 (u/bigint 4))
@@ -75,4 +77,9 @@
   (t/testing "Map"
     (let [x (->I {1 "a" 2 "b"})]
       (t/is (= [2 0 0 0 1 1 0 0 0 97 2 1 0 0 0 98]
+               (vec (sut/serialize x))))))
+
+  (t/testing "usize"
+    (let [x (->J 10)]
+      (t/is (= [10 0 0 0 0 0 0 0]
                (vec (sut/serialize x)))))))
