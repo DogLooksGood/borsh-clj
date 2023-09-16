@@ -8,7 +8,9 @@
 
 (defstruct A [^:u8 a ^:u16 b ^:u32 c ^:u64 d])
 
+(def enum-opts [:e/a :e/b])
 (defstruct B [^{:enum [:e/a :e/b]} e])
+(defstruct B2 [^{:enum enum-opts} e])
 
 (defstruct C [^:u8 a ^{:struct B} b])
 
@@ -18,7 +20,7 @@
 
 (defvariants DE [D E])
 
-(defstruct F [^{:variants DE} x])
+(defstruct F [^{:enum DE} x])
 
 (defstruct G [^:bytes x])
 
@@ -36,6 +38,7 @@
 
   (t/testing "Enum"
     (t/is (= (->B :e/a) (sut/deserialize ->B (u/byte-array [0]))))
+    (t/is (= (->B2 :e/a) (sut/deserialize ->B2 (u/byte-array [0]))))
     (t/is (thrown? ExceptionInfo #"Invalid enum value: 2"
                    (sut/deserialize ->B (u/byte-array [2])))))
 

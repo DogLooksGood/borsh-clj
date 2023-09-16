@@ -11,12 +11,14 @@
         :struct (s/keys :req-un [::struct])
         :option (s/keys :req-un [::option])
         :bytes (s/keys :req-un [::bytes])
-        :map (s/keys :req-un [::map])
-        :variants (s/keys :req-un [::variants])))
+        :map (s/keys :req-un [::map])))
 (s/def ::option ::type)
 (s/def ::vec ::type)
-(s/def ::enum (s/coll-of keyword? :kind vector?))
+(s/def ::enum (s/or
+               :keywords
+               (s/coll-of keyword? :kind vector?)
+               :symbol
+               symbol?))
 (s/def ::struct symbol?)
 (s/def ::bytes pos-int?)
 (s/def ::map (s/tuple ::type ::type))
-(s/def ::variants symbol?)

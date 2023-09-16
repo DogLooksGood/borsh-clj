@@ -1,3 +1,4 @@
+.direnv
 .clj-kondo/.cache
 .cpcache
 .nrepl-port

@@ -9,7 +9,9 @@
 
 (defstruct A [^:u8 a ^:u16 b ^:u32 c ^:u64 d])
 
+(def enum-opts [:e/a :e/b])
 (defstruct B [^{:enum [:e/a :e/b]} e])
+(defstruct B2 [^{:enum enum-opts} e])
 
 (defstruct C [^:u8 a ^{:struct B} b])
 
@@ -19,7 +21,7 @@
 
 (defvariants DE [D E])
 
-(defstruct F [^{:variants DE} x])
+(defstruct F [^{:enum DE} x])
 
 (defstruct G [^:bytes x])
 
@@ -41,8 +43,10 @@
 
   (t/testing "Enum"
     (let [x (->B :e/a)
-          y (->B :x/a)]
+          y (->B :x/a)
+          z (->B2 :e/a)]
       (t/is (= [0] (vec (sut/serialize x))))
+      (t/is (= [0] (vec (sut/serialize z))))
       (t/is (thrown? ExceptionInfo #"Invalid enum value"
                      (sut/serialize y)))))
 

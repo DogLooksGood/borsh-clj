@@ -47,3 +47,28 @@ A pure Clojure/Script implementation for Borsh
 | Simple enum              | Keyword              | `^{:enum [kws]}`              |
 | Enum of structs          | Record               | `^{:variants variants}`       |
 | Dynamic-sized byte array | Byte[] or Uint8Array | `^:bytes`                     |
+
+## Enums
+
+Simple enums can be defined with a vector of keywords
+
+```clojure
+(defstruct HasStatus
+  [^{:enum [:status/a :status/b]} status])
+
+;; Another approach
+(def status-enums [:status/a :status/b])
+(defstruct HasStatus
+  [^{:enum status-enums} status])
+```
+
+Complicated enums can be defined with `borsh.macro/defvariants`.
+
+```clojure
+(defstruct Point [^:u64 x ^:u64 y])
+(defstruct Line [^{:struct Point} p1 ^{:struct Point} p2])
+
+(defvariants shapes [Point Line])
+(defstruct HasVariants
+  [^{:enum shapes} shape])
+```

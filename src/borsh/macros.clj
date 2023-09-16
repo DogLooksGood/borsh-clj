@@ -25,12 +25,11 @@
   (let [[s-type s-value] s]
     (condp = s-type
       :primitive s
-      :enum [:enum (:enum s-value)]
+      :enum [:enum (second (:enum s-value))]
       :bytes [:bytes (:bytes s-value)]
       :struct [:struct (sym->ctor (:struct s-value))]
       :option [:option (parse-field-schema (:option s-value))]
       :vec [:vec (parse-field-schema (:vec s-value))]
-      :variants [:variants (:variants s-value)]
       :map (let [[k v] (:map s-value)]
              [:map
               [(parse-field-schema k)

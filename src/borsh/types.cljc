@@ -18,7 +18,7 @@
 (extend-type Variants
   HasSchema
   (-schema [this]
-    [:variants (:ctors this)]))
+    [:enum (:ctors this)]))
 
 (defprotocol ExtendWriter
   (write [this buf]))
