@@ -1,5 +1,5 @@
 # borsh-clj [![Test](https://github.com/DogLooksGood/borsh-clj/actions/workflows/test.yml/badge.svg)](https://github.com/DogLooksGood/borsh-clj/actions/workflows/test.yml) [![Clojars Project](https://img.shields.io/clojars/v/io.github.doglooksgood/borsh-clj.svg)](https://clojars.org/io.github.doglooksgood/borsh-clj)
-A pure Clojure/Script implementation for Borsh
+A pure Clojure/Script implementation for [Borsh](https://borsh.io/), the binary serializer for security-critical projects.
 
 ## Examples
 
