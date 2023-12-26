@@ -25,9 +25,7 @@ A pure Clojure/Script implementation for [Borsh](https://borsh.io/), the binary 
 
 ;; Deserialize a byte array
 (def r1 (borsh/deserialize ->Rect bs))
-
 ```
-
 
 ## Type Mappings
 
@@ -47,28 +45,57 @@ A pure Clojure/Script implementation for [Borsh](https://borsh.io/), the binary 
 | Simple enum              | Keyword              | `^{:enum [kws]}`              |
 | Enum of structs          | Record               | `^{:enum variants}`           |
 | Dynamic-sized byte array | Byte[] or Uint8Array | `^:bytes`                     |
+| Extended type            |                      | `^{:ext ext}`                 |
 
 ## Enums
 
 Simple enums can be defined with a vector of keywords
 
 ```clojure
-(defstruct HasStatus
+(require '[borsh.macros :as m])
+
+(m/defstruct HasStatus
   [^{:enum [:status/a :status/b]} status])
 
 ;; Another approach
 (def status-enums [:status/a :status/b])
-(defstruct HasStatus
+(m/defstruct HasStatus
   [^{:enum status-enums} status])
 ```
 
 Complicated enums can be defined with `borsh.macro/defvariants`.
 
 ```clojure
-(defstruct Point [^:u64 x ^:u64 y])
-(defstruct Line [^{:struct Point} p1 ^{:struct Point} p2])
+(require '[borsh.macros :as m])
 
-(defvariants shapes [Point Line])
-(defstruct HasVariants
+(m/defstruct Point [^:u64 x ^:u64 y])
+(m/defstruct Line [^{:struct Point} p1 ^{:struct Point} p2])
+
+(m/defvariants shapes [Point Line])
+(m/defstruct HasVariants
   [^{:enum shapes} shape])
+```
+
+## Extended Types
+
+To extend a custom type, use `IExtendWriter` and `IExtendReader`.
+
+```clojure
+(require '[borsh.ext :as ext]
+         '[borsh.types :as t]
+         '[borsh.macros :as m])
+
+(defrecord DateExt [])
+
+(extend-type DateExt
+  ext/IExtendWriter
+  (write [this buf value] ;; the type of value is java.util.Date
+    (t/write-u64 buf (.getTime value)))
+  ext/IExtendReader
+  (read [this buf]        ;; return java.util.Date
+    (java.util.Date. (t/read-u64 buf))))
+
+(def date-ext (->DateExt))
+
+(m/defstruct X [^{:ext date-ext} date])
 ```

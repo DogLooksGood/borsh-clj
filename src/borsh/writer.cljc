@@ -1,7 +1,8 @@
 (ns borsh.writer
   (:require [borsh.types :as t]
             [borsh.buffer :as b]
-            [borsh.utils :as u])
+            [borsh.utils :as u]
+            [borsh.ext :as e])
   #?(:clj (:import borsh.types.Variants)))
 
 (declare serialize-struct)
@@ -65,7 +66,12 @@
       (if (nil? value)
         (t/write-u8 buf (byte 0))
         (do (t/write-u8 buf (byte 1))
-            (serialize-value buf value opts))))))
+            (serialize-value buf value opts)))
+
+      :ext
+      (let [w (:ext opts)]
+        (when-not (satisfies? e/IExtendWriter w) (throw (ex-info "No ext writer avaliable" {:opts opts})))
+        (e/write w buf value)))))
 
 (defn serialize-struct [buf obj schema]
   (doseq [[key field] schema

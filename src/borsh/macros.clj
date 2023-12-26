@@ -34,6 +34,7 @@
              [:map
               [(parse-field-schema k)
                (parse-field-schema v)]])
+      :ext [:ext s-value]
       [s-type (val (first s-value))])))
 
 (defn parse-field [f]

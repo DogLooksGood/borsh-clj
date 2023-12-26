@@ -17,6 +17,7 @@
               jdk17_headless
               nodejs_18
               clojure
+              clojure-lsp
             ];
           };
         }

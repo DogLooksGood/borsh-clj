@@ -11,7 +11,8 @@
         :struct (s/keys :req-un [::struct])
         :option (s/keys :req-un [::option])
         :bytes (s/keys :req-un [::bytes])
-        :map (s/keys :req-un [::map])))
+        :map (s/keys :req-un [::map])
+        :ext (s/keys :opt-un [::ext])))
 (s/def ::option ::type)
 (s/def ::vec ::type)
 (s/def ::enum (s/or
@@ -22,3 +23,4 @@
 (s/def ::struct symbol?)
 (s/def ::bytes pos-int?)
 (s/def ::map (s/tuple ::type ::type))
+(s/def ::ext symbol?)

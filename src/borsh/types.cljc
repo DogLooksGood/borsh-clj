@@ -1,5 +1,4 @@
-(ns borsh.types
-  (:refer-clojure :exclude [read]))
+(ns borsh.types)
 
 (defrecord Variants [ctors types])
 
@@ -19,12 +18,6 @@
   HasSchema
   (-schema [this]
     [:enum (:ctors this)]))
-
-(defprotocol ExtendWriter
-  (write [this buf]))
-
-(defprotocol ExtendReader
-  (read [this buf offset]))
 
 (defprotocol IBuffer
   (to-byte-array [this])

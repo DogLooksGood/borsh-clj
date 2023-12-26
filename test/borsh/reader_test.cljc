@@ -3,7 +3,9 @@
   (:require [clojure.test :as t]
             [borsh.reader :as sut]
             [borsh.macros :refer [defstruct defvariants]]
-            [borsh.utils :as u])
+            [borsh.utils :as u]
+            [borsh.types :as types]
+            [borsh.ext :as e])
   #?(:clj (:import clojure.lang.ExceptionInfo)))
 
 (defstruct A [^:u8 a ^:u16 b ^:u32 c ^:u64 d])
@@ -29,6 +31,15 @@
 (defstruct I [^{:map [:u8 :string]} x])
 
 (defstruct J [^:usize x])
+
+(defrecord IdExt [])
+(extend-type IdExt
+  e/IExtendReader
+  (read [_this buf]
+    (dec (types/read-u8 buf))))
+(def id-ext (->IdExt))
+
+(defstruct K [^{:ext id-ext} x])
 
 (t/deftest test-deserialize
   (t/testing "u8 ~ u64"
@@ -62,4 +73,8 @@
 
   (t/testing "usize"
     (t/is (= (->J 10)
-             (sut/deserialize ->J (u/byte-array [10 0 0 0 0 0 0 0]))))))
+             (sut/deserialize ->J (u/byte-array [10 0 0 0 0 0 0 0])))))
+
+  (t/testing "ext"
+    (t/is (= (->K 0)
+             (sut/deserialize ->K (u/byte-array [1]))))))

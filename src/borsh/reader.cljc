@@ -1,10 +1,10 @@
 (ns borsh.reader
   (:require [borsh.types :as t]
             [borsh.buffer :as b]
-            [borsh.utils :as u])
+            [borsh.utils :as u]
+            [borsh.ext :as e])
   #?(:clj
-     (:import clojure.lang.ExceptionInfo
-              borsh.types.Variants)))
+     (:import borsh.types.Variants)))
 
 (declare deserialize-struct)
 
@@ -69,7 +69,12 @@
       :option
       (let [b (t/read-u8 buf)]
         (when-not (zero? b)
-          (deserialize-value buf opts (conj path :option)))))))
+          (deserialize-value buf opts (conj path :option))))
+
+      :ext
+      (let [r (:ext opts)]
+        (when-not (satisfies? e/IExtendReader r) (throw (ex-info "No ext reader avaliable" {:opts opts})))
+        (e/read r buf)))))
 
 (defn deserialize-struct [buf ctor schema path]
   (->> (for [[k field] schema]
