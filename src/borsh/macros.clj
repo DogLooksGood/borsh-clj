@@ -60,18 +60,20 @@
     (if is-cljs
       `(do
          (clojure.core/defrecord ~name [~@fields])
-         (extend-type ~name
-           borsh.types/HasSchema
-           (borsh.types/-schema [this#] ~schema))
-         (aset ~ctor-sym "prototype" "borshSchema" ~schema))
+         (let [schema# ~schema]
+           (extend-type ~name
+             borsh.types/HasSchema
+             (borsh.types/-schema [this#] schema#))
+           (aset ~ctor-sym "prototype" "borshSchema" schema#)))
       `(do
          (clojure.core/defrecord ~name [~@fields])
-         (extend-type ~name
-           borsh.types/HasSchema
-           (borsh.types/-schema [this#] ~schema))
-         (extend-type (class ~ctor-sym)
-           borsh.types/HasSchema
-           (borsh.types/-schema [this#] ~schema))))))
+         (let [schema# ~schema]
+           (extend-type ~name
+             borsh.types/HasSchema
+             (borsh.types/-schema [this#] schema#))
+           (extend-type (class ~ctor-sym)
+             borsh.types/HasSchema
+             (borsh.types/-schema [this#] schema#)))))))
 
 (defmacro defstruct
   "This macro works similarly to clojure.core/defrecord, except borsh
